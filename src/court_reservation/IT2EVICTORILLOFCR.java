@@ -26,6 +26,14 @@ public class IT2EVICTORILLOFCR {
 
 
     }
+     
+     private void viewCustomers() {
+        String votersQuery = "SELECT * FROM tbl_customers";
+        String[] votersHeaders = {"ID", "fname", "address", "phone_number", "Status"};
+        String[] votersColumns = {"c_id", "c_fname", "c_address", "c_phone_number", "c_status"};
+        config conf = new config();
+        conf.viewRecords(votersQuery, votersHeaders, votersColumns);
+    }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner (System.in);
@@ -39,11 +47,16 @@ public class IT2EVICTORILLOFCR {
         
         System.out.println(" Enter action: ");
         int action = sc.nextInt();
-        
+         IT2EVICTORILLOFCR test = new  IT2EVICTORILLOFCR();
         switch(action){
             case 1:
-                 IT2EVICTORILLOFCR test = new  IT2EVICTORILLOFCR();
                  test.addCustomer();
+                 
+                 break;
+                 
+                 
+            case 2:
+                test.viewCustomers();
                 
                 
             break;
