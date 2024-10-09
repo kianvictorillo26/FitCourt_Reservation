@@ -33,7 +33,48 @@ public class IT2EVICTORILLOFCR {
         String[] votersColumns = {"c_id", "c_fname", "c_address", "c_phone_number", "c_status"};
         config conf = new config();
         conf.viewRecords(votersQuery, votersHeaders, votersColumns);
+        
     }
+     
+     private void updateCustomer(){
+         Scanner sc = new Scanner(System.in);
+         System.out.println("Enter ID to update: ");
+         int id = sc.nextInt();
+         
+         System.out.println("New First Name: ");
+         String fname = sc.next();
+         
+         System.out.println("New Address: ");
+         String address = sc.next();
+         
+         System.out.println("New Phone Number: ");
+         int phone_number = sc.nextInt();
+         
+         System.out.println("New Status: ");
+         String status = sc.next();
+         
+         
+         String qry = "UPDATE tbl_customers SET c_fname = ?, c_address = ?, c_phone_number = ?, c_status = ? WHERE C_id = ?";
+         
+         config conf = new config();
+         conf.updateRecord(qry, fname, address, phone_number, status, id);
+         
+     }
+     
+     
+     private void deleteCustomer(){
+         Scanner sc = new Scanner(System.in);
+         System.out.println("Enter ID to delete: ");
+         int id = sc.nextInt();
+         
+         String qry = "DELETE FROM tbl_customers WHERE c_id = ?";
+         config conf = new config();
+         conf.deleteRecord(qry, id);
+         
+     }
+ 
+     
+     
 
     public static void main(String[] args) {
         Scanner sc = new Scanner (System.in);
@@ -45,7 +86,7 @@ public class IT2EVICTORILLOFCR {
         System.out.println("5. EXIT");
         
         
-        System.out.println(" Enter action: ");
+        System.out.print(" Enter action: ");
         int action = sc.nextInt();
          IT2EVICTORILLOFCR test = new  IT2EVICTORILLOFCR();
         switch(action){
@@ -60,6 +101,22 @@ public class IT2EVICTORILLOFCR {
                 
                 
             break;
+            
+            
+            case 3:
+                 test.viewCustomers();
+                test.updateCustomer();
+                
+                
+            break;
+           
+            case 4:
+                  test.viewCustomers();
+                test.deleteCustomer();
+                
+                break;
+                
+                
             
             
         }
