@@ -64,7 +64,7 @@ public class Customer {
         String address = sc.next();
         System.out.print("Customer Phone number: ");
         String phone_number = sc.next();
-        System.out.print("Student Status: ");
+        System.out.print("Customer Status: ");
         String status = sc.next();
 
         String sql = "INSERT INTO tbl_customers (c_fname, c_lname, c_address, c_phone_number, c_status) VALUES (?, ?, ?, ?, ?)";

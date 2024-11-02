@@ -31,6 +31,8 @@ public class IT2EVICTORILLOFCR {
                 cs.cTransaction();
                 break;
             case 2:
+                Reservation rs = new Reservation();
+                rs.rTransaction();
                 break;
             case 3:
                 break;
