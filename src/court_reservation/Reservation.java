@@ -9,7 +9,7 @@ public class Reservation {
          Scanner sc = new Scanner(System.in);
         String response;
         do{
-            System.out.println("\n-----------------------------");        
+            System.out.println("\n--------------------------------------------------------------------------------------------");        
             System.out.println(" RESERVATION PANEL");
             System.out.println("1. ADD RESERVATION");
             System.out.println("2. VIEW RESERVATION");
@@ -39,20 +39,25 @@ public class Reservation {
              
                 break;
             case 4:
-              
+                rs.viewReservation();
+                rs.deleteResesrvation();
+                rs.viewReservation();
                 break;
             case 5:
                 break;
            
             }
-            System.out.println("Do you want to continue? (yes/no): ");
+            System.out.print("Do you want to continue? (yes/no): ");
             response = sc.next();
         }while(response.equalsIgnoreCase("yes"));
     }
     
    public void addReservation(){
         Scanner sc = new Scanner(System.in);
-     
+        
+        System.out.print("Reservation Name: ");
+        String rname = sc.nextLine();
+        
         System.out.print("Reservation Date: ");
         String rdate = sc.nextLine();
         
@@ -92,19 +97,41 @@ public class Reservation {
          id = sc.nextInt();
          }
          
-         System.out.print("New Date: ");
+         System.out.print("New Resservation Date: ");
          String rdate = sc.nextLine();         
-         System.out.print("New Time: ");
+         System.out.print("New Reservation Time: ");
          String rtime = sc.next();
-         System.out.print("New Price: ");
+         System.out.print("New Reservation Price: ");
          String rprice = sc.next();
-         System.out.print("New Status: ");
+         System.out.print("New Reservation Status: ");
          String rstatus = sc.next();
          
          String qry = "UPDATE tbl_reservation SET r_date = ?,r_time =?, r_price = ?, r_status = ? WHERE r_id = ?";
          
          conf.updateRecord(qry, rdate, rtime, rprice, rstatus, id);
          
-     }
+     
+  }
+  
+  private void deleteResesrvation(){
+      
+         Scanner sc = new Scanner(System.in);
+          config conf = new config();
+         System.out.println("Enter ID to delete: ");
+         int id = sc.nextInt();
+         
+         while(conf.getSingleValue("SELECT r_id FROM tbl_reservation WHERE r_id = ?",id) == 0){
+         System.out.println("Selectd ID doesn't exist");
+         System.out.print("Select Reservation ID Again: ");
+         id = sc.nextInt();
+         }
+         
+         String qry = "DELETE FROM tbl_reservation WHERE r_id = ?";
+         conf.deleteRecord(qry, id);
+         
+  
+  }
+  
+  
    
 }

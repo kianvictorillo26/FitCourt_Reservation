@@ -13,8 +13,7 @@ public static Connection connectDB() {
         Connection con = null;
         try {
             Class.forName("org.sqlite.JDBC"); // Load the SQLite JDBC driver
-            con = DriverManager.getConnection("jdbc:sqlite:court.db"); // Establish connection
-            System.out.println("Connection Successful");
+            con = DriverManager.getConnection("jdbc:sqlite:court.db"); // Establish connectio
         } catch (Exception e) {
             System.out.println("Connection Failed: " + e);
         }
@@ -69,11 +68,12 @@ public void addRecord(String sql, Object... values) {
 
             // Print the headers dynamically
             StringBuilder headerLine = new StringBuilder();
-            headerLine.append("---------------------------------------------------------------------------------------------\n| ");
+            headerLine.append("--------------------------------------------------------------------------------\n| ");
             for (String header : columnHeaders) {
                 headerLine.append(String.format("%-20s | ", header)); // Adjust formatting as needed
             }
-            headerLine.append("---------------------------------------------------------------------------------------------\n| ");
+            headerLine.append("\n--------------------------------------------------------------------------------");
+
             System.out.println(headerLine.toString());
 
             // Print the rows dynamically based on the provided column names
@@ -90,7 +90,6 @@ public void addRecord(String sql, Object... values) {
         } catch (SQLException e) {
             System.out.println("Error retrieving records: " + e.getMessage());
         }
-        
     }
    //-----------------------------------------------
     // UPDATE METHOD

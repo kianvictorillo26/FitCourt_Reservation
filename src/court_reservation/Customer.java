@@ -10,7 +10,7 @@ public class Customer {
         Scanner sc = new Scanner(System.in);
         String response;
         do{
-            System.out.println("\n-----------------------------");        
+            System.out.println("\n--------------------------------------------------------------------------------------------");        
             System.out.println(" CUSTOMER PANEL");
             System.out.println("1. ADD CUSTOMER");
             System.out.println("2. VIEW CUSTOMER");
@@ -67,7 +67,7 @@ public class Customer {
         System.out.print("Customer Status: ");
         String status = sc.next();
 
-        String sql = "INSERT INTO tbl_customers (c_fname, c_lname, c_address, c_phone_number, c_status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbl_customer (c_fname, c_lname, c_address, c_phone_number, c_status) VALUES (?, ?, ?, ?, ?)";
 
 
         conf.addRecord(sql, fname,lname, address, phone_number, status);
@@ -75,8 +75,8 @@ public class Customer {
 
     }
  
-  private void viewCustomers() {
-        String votersQuery = "SELECT * FROM tbl_customers";
+  public void viewCustomers() {
+        String votersQuery = "SELECT * FROM tbl_customer";
         String[] votersHeaders = {"ID", "fname", "lname","address", "phone_number", "Status"};
         String[] votersColumns = {"c_id", "c_fname","c_lname", "c_address", "c_phone_number", "c_status"};
         config conf = new config();
@@ -90,7 +90,7 @@ public class Customer {
          System.out.print("Enter ID to update: ");
          int id = sc.nextInt();
          
-         while(conf.getSingleValue("SELECT c_id FROM tbl_customers WHERE c_id = ?",id) == 0){
+         while(conf.getSingleValue("SELECT c_id FROM tbl_customer WHERE c_id = ?",id) == 0){
          System.out.println("Selectd ID doesn't exist");
          System.out.println("Select Customers ID Again: ");
          id = sc.nextInt();
@@ -107,7 +107,7 @@ public class Customer {
          System.out.print("New Status: ");
          String status = sc.next();
          
-         String qry = "UPDATE tbl_customers SET c_fname = ?,c_lname =?, c_address = ?, c_phone_number = ?, c_status = ? WHERE C_id = ?";
+         String qry = "UPDATE tbl_customer SET c_fname = ?,c_lname =?, c_address = ?, c_phone_number = ?, c_status = ? WHERE c_id = ?";
          
          
          conf.updateRecord(qry, fname,lname, address, phone_number, status, id);
@@ -121,13 +121,13 @@ public class Customer {
          System.out.println("Enter ID to delete: ");
          int id = sc.nextInt();
          
-         while(conf.getSingleValue("SELECT c_id FROM tbl_customers WHERE c_id = ?",id) == 0){
+         while(conf.getSingleValue("SELECT c_id FROM tbl_customer WHERE c_id = ?",id) == 0){
          System.out.println("Selectd ID doesn't exist");
-         System.out.println("Select Customers ID Again: ");
+         System.out.print("Select Customers ID Again: ");
          id = sc.nextInt();
          }
          
-         String qry = "DELETE FROM tbl_customers WHERE c_id = ?";
+         String qry = "DELETE FROM tbl_customer WHERE c_id = ?";
          conf.deleteRecord(qry, id);
          
      }

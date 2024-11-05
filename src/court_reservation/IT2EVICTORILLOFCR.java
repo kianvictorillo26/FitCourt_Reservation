@@ -12,7 +12,8 @@ public class IT2EVICTORILLOFCR {
     
     boolean exit = true;
     do{
-        System.out.println("\n-----------------------------"); 
+        System.out.println("\n-------------------------------------------------------------------------------------------------");        
+
         System.out.println("WELCOME TO FIT COURT RESERVATION");
         System.out.println("");
         System.out.println("1. CUSTOMER");   
@@ -35,11 +36,13 @@ public class IT2EVICTORILLOFCR {
                 rs.rTransaction();
                 break;
             case 3:
+                Schedules ss = new Schedules();
+                ss.sTransaction();
                 break;
             case 4:
                 break;
             case 5:
-                System.out.println("Exit Selected... type 'yes' to continue: ");
+                System.out.print("Exit Selected... type 'yes' to continue: ");
                 String resp = sc.next();
                 if(resp.equalsIgnoreCase("yes")){
                 exit = false;
