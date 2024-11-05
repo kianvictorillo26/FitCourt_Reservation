@@ -87,7 +87,7 @@ public class Schedules {
         System.out.print("Enter Quantity: ");
         double quantity = sc.nextDouble();
         
-        String rpriceqry = "SELECT r_id FROM tbl_reservation WHERE r_id = ?";
+        String rpriceqry = "SELECT r_price FROM tbl_reservation WHERE r_id = ?";
         double rprice = conf.getSingleValue(rpriceqry, rid);
         double due = rprice * quantity;
         
