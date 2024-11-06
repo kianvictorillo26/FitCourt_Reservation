@@ -92,7 +92,7 @@ public class Schedules {
         double due = rprice * quantity;
         
         System.out.println("-------------------------------------");
-        System.out.println("Total Due "+ due);
+        System.out.println("Total Due:  "+ due);
         System.out.println("-------------------------------------");
 
     
@@ -103,7 +103,7 @@ public class Schedules {
         double rcash = sc.nextDouble();
     
         while(rcash < due){
-            System.out.println("Invalid Amount, Please Try Again: ");
+            System.out.print("Invalid Amount, Please Try Again: ");
             rcash = sc.nextDouble();
         }    
             

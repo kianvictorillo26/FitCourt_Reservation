@@ -100,7 +100,7 @@ public class Reservation {
          System.out.print("New Reservation Name: ");
          String rname = sc.next();
          
-         System.out.print("New Resservation Date: ");
+         System.out.print("New Reservation Date: ");
          String rdate = sc.next();     
          
          System.out.print("New Reservation Time: ");
@@ -123,7 +123,7 @@ public class Reservation {
       
          Scanner sc = new Scanner(System.in);
           config conf = new config();
-         System.out.println("Enter ID to delete: ");
+         System.out.println("Enter ID to Delete: ");
          int id = sc.nextInt();
          
          while(conf.getSingleValue("SELECT r_id FROM tbl_reservation WHERE r_id = ?",id) == 0){
