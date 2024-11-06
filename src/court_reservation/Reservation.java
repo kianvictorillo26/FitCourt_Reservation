@@ -13,7 +13,7 @@ public class Reservation {
             System.out.println(" RESERVATION PANEL");
             System.out.println("1. ADD RESERVATION");
             System.out.println("2. VIEW RESERVATION");
-            System.out.println("3. UPDATE RESERVATION");
+            System.out.println("3. UPDATE CUSTOMER");
             System.out.println("4. DELETE RESERVATION");
             System.out.println("5. EXIT");
 
@@ -70,16 +70,16 @@ public class Reservation {
         System.out.print("Reservation Status: ");
         String rstatus = sc.next();
         
-        String qry = "INSERT INTO tbl_reservation ( r_date, r_time, r_price, r_status) VALUES (?,?,?,?)";
+        String qry = "INSERT INTO tbl_reservation (r_name, r_date, r_time, r_price, r_status) VALUES (?,?,?,?,?)";
         config conf = new config();
-        conf.addRecord(qry, rdate, rtime, rprice, rstatus );
+        conf.addRecord(qry, rname, rdate, rtime, rprice, rstatus );
    
    }
    
   public void viewReservation(){
      String qry = "SELECT * FROM tbl_reservation";
-        String[] hrds = {"ID", "Date","Time", "Price", "Status"};
-        String[] clms = {"r_id", "r_date", "r_time", "r_price", "r_status"};
+        String[] hrds = {"ID", "name", "Date","Time", "Price", "Status"};
+        String[] clms = {"r_id","r_name", "r_date", "r_time", "r_price", "r_status"};
         config conf = new config();
         conf.viewRecords(qry, hrds, clms);
         
@@ -97,18 +97,24 @@ public class Reservation {
          id = sc.nextInt();
          }
          
+         System.out.print("New Reservation Name: ");
+         String rname = sc.next();
+         
          System.out.print("New Resservation Date: ");
-         String rdate = sc.nextLine();         
+         String rdate = sc.next();     
+         
          System.out.print("New Reservation Time: ");
          String rtime = sc.next();
+         
          System.out.print("New Reservation Price: ");
          String rprice = sc.next();
+         
          System.out.print("New Reservation Status: ");
          String rstatus = sc.next();
          
-         String qry = "UPDATE tbl_reservation SET r_date = ?,r_time =?, r_price = ?, r_status = ? WHERE r_id = ?";
+         String qry = "UPDATE tbl_reservation SET r_name = ?, r_date = ?,r_time = ?, r_price = ?, r_status = ? WHERE r_id = ?";
          
-         conf.updateRecord(qry, rdate, rtime, rprice, rstatus, id);
+         conf.updateRecord(qry, rname, rdate, rtime, rprice, rstatus, id);
          
      
   }
