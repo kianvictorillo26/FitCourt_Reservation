@@ -10,13 +10,13 @@ public class Customer {
         Scanner sc = new Scanner(System.in);
         String response;
         do{
-            System.out.println("\n--------------------------------------------------------------------------------------------");        
-            System.out.println(" CUSTOMER PANEL");
+            System.out.println("\n===================== CUSTOMERS PANEL =====================");
+            System.out.println("");
             System.out.println("1. ADD CUSTOMER");
             System.out.println("2. VIEW CUSTOMER");
-            System.out.println("3. UPDATE CUSTOMER");
-            System.out.println("4. DELETE CUSTOMER");
-            System.out.println("5. EXIT");
+            System.out.println("3. EDIT CUSTOMER");
+            System.out.println("4. REMOVE CUSTOMER");
+            System.out.println("5. BACK TO MAIN MENU");
 
 
             System.out.print("Enter a selection: ");
@@ -56,10 +56,8 @@ public class Customer {
         Scanner sc = new Scanner(System.in);
         config conf = new config();
         
-        System.out.print("Customer First Name: ");
+        System.out.print("Customer Full Name: ");
         String fname = sc.next();
-         System.out.print("Customer Last Name: ");
-        String lname = sc.next();
         System.out.print("Cutomer Address: ");
         String address = sc.next();
         System.out.print("Customer Phone number: ");
@@ -67,18 +65,18 @@ public class Customer {
         System.out.print("Customer Status: ");
         String status = sc.next();
 
-        String sql = "INSERT INTO tbl_customer (c_fname, c_lname, c_address, c_phone_number, c_status) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbl_customer (c_fname, c_address, c_phone_number, c_status) VALUES (?, ?, ?, ?)";
 
 
-        conf.addRecord(sql, fname,lname, address, phone_number, status);
+        conf.addRecord(sql, fname, address, phone_number, status);
 
 
     }
  
   public void viewCustomers() {
         String votersQuery = "SELECT * FROM tbl_customer";
-        String[] votersHeaders = {"ID", "fname", "lname","address", "phone_number", "Status"};
-        String[] votersColumns = {"c_id", "c_fname","c_lname", "c_address", "c_phone_number", "c_status"};
+        String[] votersHeaders = {"ID", "fname","address", "phone_number", "Status"};
+        String[] votersColumns = {"c_id", "c_fname","c_address", "c_phone_number", "c_status"};
         config conf = new config();
         conf.viewRecords(votersQuery, votersHeaders, votersColumns);
         
@@ -98,8 +96,6 @@ public class Customer {
          
          System.out.print("New First Name: ");
          String fname = sc.next();         
-         System.out.print("New Last Name: ");
-         String lname = sc.next();
          System.out.print("New Address: ");
          String address = sc.next();
          System.out.print("New Phone Number: ");
@@ -107,10 +103,10 @@ public class Customer {
          System.out.print("New Status: ");
          String status = sc.next();
          
-         String qry = "UPDATE tbl_customer SET c_fname = ?,c_lname =?, c_address = ?, c_phone_number = ?, c_status = ? WHERE c_id = ?";
+         String qry = "UPDATE tbl_customer SET c_fname = ?, c_address = ?, c_phone_number = ?, c_status = ? WHERE c_id = ?";
          
          
-         conf.updateRecord(qry, fname,lname, address, phone_number, status, id);
+         conf.updateRecord(qry, fname, address, phone_number, status, id);
          
      }
    
