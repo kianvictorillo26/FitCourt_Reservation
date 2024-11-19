@@ -15,7 +15,7 @@ public class Schedule {
             System.out.println("2. VIEW SCHEDULES");
             System.out.println("3. EDIT SCHEDULES");
             System.out.println("4. DELETE SCHEDULE");
-            System.out.println("5. BACK TO MAIN MENU");
+            System.out.println("5. BACK");
 
 
             System.out.print("Enter a selection: ");
@@ -67,6 +67,7 @@ public class Schedule {
         String qry = "INSERT INTO tbl_schedules ( s_date, s_time, s_price) VALUES (?,?,?)";
         config conf = new config();
         conf.addRecord(qry,sdate, stime, sprice);
+         System.out.println("Schedule added successfully!");
    
    }
    
@@ -104,6 +105,8 @@ public class Schedule {
          
          conf.updateRecord(qry, sdate, stime, sprice, id);
          
+         System.out.println("Schedule updated successfully!");
+         
      
   }
   
@@ -122,6 +125,7 @@ public class Schedule {
          
          String qry = "DELETE FROM tbl_schedule WHERE s_id = ?";
          conf.deleteRecord(qry, id);
+          System.out.println("Schedule deleted successfully!");
          
   
   }

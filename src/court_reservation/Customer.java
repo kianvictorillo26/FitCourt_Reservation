@@ -16,7 +16,7 @@ public class Customer {
             System.out.println("2. VIEW CUSTOMER");
             System.out.println("3. EDIT CUSTOMER");
             System.out.println("4. REMOVE CUSTOMER");
-            System.out.println("5. BACK TO MAIN MENU");
+            System.out.println("5. BACK");
 
 
             System.out.print("Enter a selection: ");
@@ -69,6 +69,8 @@ public class Customer {
 
 
         conf.addRecord(sql, fname, address, phone_number, status);
+        
+        System.out.println("Customer added successfully!");
 
 
     }
@@ -79,6 +81,8 @@ public class Customer {
         String[] votersColumns = {"c_id", "c_fname","c_address", "c_phone_number", "c_status"};
         config conf = new config();
         conf.viewRecords(votersQuery, votersHeaders, votersColumns);
+        
+        
         
     }
   
@@ -94,7 +98,7 @@ public class Customer {
          id = sc.nextInt();
          }
          
-         System.out.print("New First Name: ");
+         System.out.print("New Full Name: ");
          String fname = sc.next();         
          System.out.print("New Address: ");
          String address = sc.next();
@@ -107,6 +111,8 @@ public class Customer {
          
          
          conf.updateRecord(qry, fname, address, phone_number, status, id);
+         
+         System.out.println("Customer updated successfully!");
          
      }
    
@@ -125,6 +131,7 @@ public class Customer {
          
          String qry = "DELETE FROM tbl_customer WHERE c_id = ?";
          conf.deleteRecord(qry, id);
+          System.out.println("Customer deleted successfully!");
          
      }
 }

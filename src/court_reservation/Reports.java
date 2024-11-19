@@ -1,6 +1,8 @@
 package court_reservation;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Reports {
@@ -16,7 +18,7 @@ public class Reports {
                 System.out.println("");
                 System.out.println("1. RESERVATION REPORT");
                 System.out.println("2. RESERVATION RECEIPT");
-                System.out.println("3. BACK TO MAIN MENU");
+                System.out.println("3. BACK");
 
                 System.out.print("\nEnter a Selection: ");
                 opt = scan.nextInt();
@@ -69,7 +71,7 @@ public class Reports {
         System.out.println("\n=====================  FIT COURT RESERVATION REPORTS =====================");
         System.out.println("");
         System.out.println("-----------------------------------------------------------------------------------------------------");
-        System.out.println("Reservation ID | Customer Name  | Reservation Date | Reservation Time | Reservation Status");
+        System.out.println("Reservation ID   | Customer Name       | Reservation Date     | Reservation Time     | Reservation Status");
         System.out.println("-----------------------------------------------------------------------------------------------------");
 
        
@@ -81,7 +83,7 @@ public class Reports {
             String reservationStatus = rs.getString("reservation_status");
 
             
-            System.out.println(String.format("%-15d | %-17s | %-17s | %-17s | %-17s",
+            System.out.println(String.format("%-15d | %-20s | %-20s | %-20s | %-20s",
                     reservationId, customerName, reservationDate, reservationTime, reservationStatus));
 
         } while (rs.next());
@@ -99,47 +101,46 @@ public void generateReceipt() {
     Scanner sc = new Scanner(System.in);
     System.out.print("\nEnter Reservation ID to Generate Receipt: ");
     int r_id = sc.nextInt();
-    sc.nextLine();  // Consume newline
+    sc.nextLine(); // Consume newline
 
-    // Modify the SQL to include reservation date and time (assuming reservation_date is stored in the reservation table)
-    String sql = "SELECT c.c_fname, s.s_date, s.s_time, s.s_price, r.r_status, r.reservation_date, r.reservation_time " +
+    String sql = "SELECT c.c_fname, s.s_date, s.s_time, s.s_price, r.r_status, r.r_date, r.r_time " +
                  "FROM tbl_reservation r " +
                  "JOIN tbl_customer c ON r.c_id = c.c_id " +
                  "JOIN tbl_schedules s ON r.s_id = s.s_id " +
                  "WHERE r.r_id = ?";
 
-    try (Connection conn = config.connectDB();  // Assuming config.connectDB() works for SQLite
+    try (Connection conn = config.connectDB();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        // Set the reservation ID parameter in the SQL query
         stmt.setInt(1, r_id);
 
         try (ResultSet rs = stmt.executeQuery()) {
-            // Check if data is returned
             if (rs.next()) {
-                // Retrieve data from the result set
                 String customerName = rs.getString("c_fname");
                 String reservationDate = rs.getString("s_date");
                 String reservationTime = rs.getString("s_time");
                 int price = rs.getInt("s_price");
                 String reservationStatus = rs.getString("r_status");
-                
-                // Adding reservation date and time (the date and time the reservation was made)
-                String reservationDateMade = rs.getString("reservation_date");
-                String reservationTimeMade = rs.getString("reservation_time");
 
-                // Print the receipt with the additional details
+                // Retrieve reservation date and time from the database
+                String reservationDateMade = rs.getString("r_date");
+                String reservationTimeMade = rs.getString("r_time");
+
+                LocalDate currdate = LocalDate.now();
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                String date = currdate.format(format);
+
+
                 System.out.println("\n===================== FIIT COURT RESERVATION RECEIPT =====================");
                 System.out.println("");
                 System.out.println("=====================================================");
                 System.out.println("RESERVATION DETAILS");
-                System.out.println("Reservation Date Made: " + reservationDateMade);  
-                System.out.println("Reservation Time Made: " + reservationTimeMade);
+                System.out.println("Receipt Generated On: " + date); // Current date and time
                 System.out.println("=====================================================");
                 System.out.println("Customer Name: " + customerName);
                 System.out.println("Reservation Date: " + reservationDate);
                 System.out.println("Reservation Time: " + reservationTime);
-                System.out.println("Price: $" + price);
+                System.out.println("Price: ₱" + price);
                 System.out.println("Reservation Status: " + reservationStatus);
                 System.out.println("=====================================================");
             } else {
@@ -149,5 +150,6 @@ public void generateReceipt() {
     } catch (SQLException e) {
         System.out.println("Error generating receipt: " + e.getMessage());
     }
-  }
+
+   }
 }

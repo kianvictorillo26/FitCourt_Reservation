@@ -16,12 +16,12 @@ public class Reservation {
             System.out.println("2. VIEW RESERVATION");
             System.out.println("3. EDIT RESERVATION");
             System.out.println("4. DELETE RESERVATION");
-            System.out.println("5. BACK TO MAIN MENU");
+            System.out.println("5. BACK");
 
             System.out.print("Enter a selection: ");
             int act = sc.nextInt();
 
-            // Create instance of Reservation to call methods
+           
             Reservation rs = new Reservation();
             switch (act) {
                 case 1:
@@ -50,11 +50,11 @@ public class Reservation {
         } while (response.equalsIgnoreCase("yes"));
     }
 
-    // Add reservation with payment status
+    
     private void addReservation() {
         Scanner sc = new Scanner(System.in);
 
-        config conf = new config(); // Assuming config handles DB operations
+        config conf = new config();
         Customer cs = new Customer();
         cs.viewCustomers();
 
@@ -91,7 +91,7 @@ public class Reservation {
         System.out.print("Enter the received cash: ");
         double rcash = sc.nextDouble();
 
-        // Ensure received cash is sufficient
+       
         while (rcash < sprice) {
             System.out.print("Invalid Amount, Please Try Again: ");
             rcash = sc.nextDouble();
@@ -101,21 +101,22 @@ public class Reservation {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         String date = currdate.format(format);
 
-        // Determine payment status
+        
         String paymentStatus = (rcash >= sprice) ? "Paid" : "Not Paid";
 
-        String status = "Pending"; // Initial reservation status
+        String status = "Pending"; 
 
         String reservationqry = "INSERT INTO tbl_reservation (c_id, s_id, r_status, payment_status) "
                 + "VALUES(?,?,?,?)";
 
-        // Add record to the reservation table
+        
         conf.addRecord(reservationqry, cid, sid, status, paymentStatus);
 
-        System.out.println("Reservation added successfully. Payment Status: " + paymentStatus);
+        System.out.println("Reservation added successfully.");
+        System.out.println("Payment Status: " + paymentStatus);
     }
 
-    // View all reservations with payment status
+    
     public void viewReservation() {
         String votersQuery = "SELECT r.r_id, c.c_fname, s.s_price, s.s_date, s.s_time, r.r_status, r.payment_status "
                 + "FROM tbl_reservation r "
@@ -129,7 +130,7 @@ public class Reservation {
         conf.viewRecords(votersQuery, votersHeaders, votersColumns);
     }
 
-    // Update reservation status and payment status
+    
     public void updateReservation() {
         Scanner sc = new Scanner(System.in);
         config conf = new config();
@@ -145,16 +146,18 @@ public class Reservation {
         System.out.print("New Reservation Status: ");
         String rstatus = sc.next();
 
-        // Ask for payment status update
+        
         System.out.print("New Payment Status (Paid/Not Paid): ");
         String paymentStatus = sc.next();
 
         String qry = "UPDATE tbl_reservation SET r_status = ?, payment_status = ? WHERE r_id = ?";
 
         conf.updateRecord(qry, rstatus, paymentStatus, id);
+        
+        System.out.println("Reservation updated successfully!");
     }
 
-    // Delete a reservation
+    
     private void deleteReservation() {
         Scanner sc = new Scanner(System.in);
         config conf = new config();
@@ -169,5 +172,6 @@ public class Reservation {
 
         String qry = "DELETE FROM tbl_reservation WHERE r_id = ?";
         conf.deleteRecord(qry, id);
+         System.out.println("Reservation deleted successfully!");
     }
 }
