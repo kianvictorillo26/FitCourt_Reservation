@@ -50,72 +50,80 @@ public class Reservation {
         } while (response.equalsIgnoreCase("yes"));
     }
 
-    
-    private void addReservation() {
-        Scanner sc = new Scanner(System.in);
+   private boolean isScheduleBooked(int sid) {
+    config conf = new config();
+    String query = "SELECT COUNT(*) FROM tbl_reservation WHERE s_id = ? AND r_status <> 'Cancelled'";
+    return conf.getSingleValue(query, sid) > 0;
+}
 
-        config conf = new config();
-        Customer cs = new Customer();
-        cs.viewCustomers();
+private void addReservation() {
+    Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter the ID of the Customer: ");
-        int cid = sc.nextInt();
+    config conf = new config();
+    Customer cs = new Customer();
+    cs.viewCustomers();
 
-        String csql = "SELECT c_id FROM tbl_customer WHERE c_id = ?";
-        while (conf.getSingleValue(csql, cid) == 0) {
-            System.out.print("Customer doesn't exist, Select again: ");
-            cid = sc.nextInt();
-        }
+    System.out.print("Enter the ID of the Customer: ");
+    int cid = sc.nextInt();
 
-        Schedule ss = new Schedule();
-        ss.viewSchedules();
-
-        System.out.print("Enter the ID of the Schedule: ");
-        int sid = sc.nextInt();
-
-        String ssql = "SELECT s_id FROM tbl_schedules WHERE s_id = ? ";
-        while (conf.getSingleValue(ssql, sid) == 0) {
-            System.out.print("Schedule doesn't exist, Select again: ");
-            sid = sc.nextInt();
-        }
-
-        String spriceqry = "SELECT s_price FROM tbl_schedules WHERE s_id = ?";
-        double sprice = conf.getSingleValue(spriceqry, sid);
-
-        System.out.println("-------------------------------------");
-        System.out.println("Total Due:  " + sprice);
-        System.out.println("-------------------------------------");
-
-        System.out.println("");
-
-        System.out.print("Enter the received cash: ");
-        double rcash = sc.nextDouble();
-
-       
-        while (rcash < sprice) {
-            System.out.print("Invalid Amount, Please Try Again: ");
-            rcash = sc.nextDouble();
-        }
-
-        LocalDate currdate = LocalDate.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        String date = currdate.format(format);
-
-        
-        String paymentStatus = (rcash >= sprice) ? "Paid" : "Not Paid";
-
-        String status = "Pending"; 
-
-        String reservationqry = "INSERT INTO tbl_reservation (c_id, s_id, r_status, payment_status) "
-                + "VALUES(?,?,?,?)";
-
-        
-        conf.addRecord(reservationqry, cid, sid, status, paymentStatus);
-
-        System.out.println("Reservation added successfully.");
-        System.out.println("Payment Status: " + paymentStatus);
+    String csql = "SELECT c_id FROM tbl_customer WHERE c_id = ?";
+    while (conf.getSingleValue(csql, cid) == 0) {
+        System.out.print("Customer doesn't exist, Select again: ");
+        cid = sc.nextInt();
     }
 
+    Schedule ss = new Schedule();
+    ss.viewSchedules();
+
+    System.out.print("Enter the ID of the Schedule: ");
+    int sid = sc.nextInt();
+
+    String ssql = "SELECT s_id FROM tbl_schedules WHERE s_id = ?";
+    while (conf.getSingleValue(ssql, sid) == 0) {
+        System.out.print("Schedule doesn't exist, Select again: ");
+        sid = sc.nextInt();
+    }
+
+    // Check if the schedule is already booked
+    if (isScheduleBooked(sid)) {
+        System.out.println("This schedule is already booked. Please select a different schedule.");
+        return; // Exit the method if the schedule is booked
+    }
+
+    String spriceqry = "SELECT s_price FROM tbl_schedules WHERE s_id = ?";
+    double sprice = conf.getSingleValue(spriceqry, sid);
+
+    System.out.println("-------------------------------------");
+    System.out.println("Total Due:  " + sprice);
+    System.out.println("-------------------------------------");
+
+    System.out.print("Enter the received cash: ");
+    double rcash = sc.nextDouble();
+
+    while (rcash < sprice) {
+        System.out.print("Invalid Amount, Please Try Again: ");
+        rcash = sc.nextDouble();
+    }
+
+    // Calculate change
+    double change = rcash - sprice;
+
+    LocalDate currdate = LocalDate.now();
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    String date = currdate.format(format);
+
+    String paymentStatus = (rcash >= sprice) ? "Paid" : "Not Paid";
+    String status = "Pending"; 
+
+    String reservationqry = "INSERT INTO tbl_reservation (c_id, s_id, r_status, payment_status) "
+            + "VALUES(?,?,?,?)";
+
+    conf.addRecord(reservationqry, cid, sid, status, paymentStatus);
+
+    System.out.println("Reservation added successfully.");
+    System.out.println("Payment Status: " + paymentStatus);
+    System.out.println("Change to be returned: ₱" + change); // Display change amount
+}
     
     public void viewReservation() {
         String votersQuery = "SELECT r.r_id, c.c_fname, s.s_price, s.s_date, s.s_time, r.r_status, r.payment_status "

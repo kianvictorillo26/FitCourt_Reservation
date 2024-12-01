@@ -101,9 +101,9 @@ public void generateReceipt() {
     Scanner sc = new Scanner(System.in);
     System.out.print("\nEnter Reservation ID to Generate Receipt: ");
     int r_id = sc.nextInt();
-    sc.nextLine(); // Consume newline
+    sc.nextLine();
 
-    String sql = "SELECT c.c_fname, s.s_date, s.s_time, s.s_price, r.r_status, r.r_date, r.r_time " +
+    String sql = "SELECT c.c_fname, s.s_date, s.s_time, s.s_price, r.r_status " +
                  "FROM tbl_reservation r " +
                  "JOIN tbl_customer c ON r.c_id = c.c_id " +
                  "JOIN tbl_schedules s ON r.s_id = s.s_id " +
@@ -122,20 +122,15 @@ public void generateReceipt() {
                 int price = rs.getInt("s_price");
                 String reservationStatus = rs.getString("r_status");
 
-                // Retrieve reservation date and time from the database
-                String reservationDateMade = rs.getString("r_date");
-                String reservationTimeMade = rs.getString("r_time");
-
                 LocalDate currdate = LocalDate.now();
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
                 String date = currdate.format(format);
-
 
                 System.out.println("\n===================== FIIT COURT RESERVATION RECEIPT =====================");
                 System.out.println("");
                 System.out.println("=====================================================");
                 System.out.println("RESERVATION DETAILS");
-                System.out.println("Receipt Generated On: " + date); // Current date and time
+                System.out.println("Receipt Generated On: " + date);
                 System.out.println("=====================================================");
                 System.out.println("Customer Name: " + customerName);
                 System.out.println("Reservation Date: " + reservationDate);
@@ -149,7 +144,6 @@ public void generateReceipt() {
         }
     } catch (SQLException e) {
         System.out.println("Error generating receipt: " + e.getMessage());
+        }
     }
-
-   }
 }

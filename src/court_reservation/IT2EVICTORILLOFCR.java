@@ -11,10 +11,13 @@ public class IT2EVICTORILLOFCR {
     Scanner sc = new Scanner(System.in);
     
     boolean exit = true;
-    do{
-        System.out.println("\n==============================================");
-        System.out.println("         WELCOME TO FIT COURT RESERVATION");
-        System.out.println("\n==============================================");
+    do{System.out.println("\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+System.out.println("┃          WELCOME TO THE FIT COURT           ┃");
+System.out.println("┃            RESERVATION SYSTEM               ┃");
+System.out.println("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫");
+System.out.println("┃   Your gateway to hassle-free court bookings!┃");
+System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n");
+
         System.out.println("");
         System.out.println("1. CUSTOMER");   
         System.out.println("2. SCHEDULES");   
